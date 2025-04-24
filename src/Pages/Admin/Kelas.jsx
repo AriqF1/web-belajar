@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { modulList } from "../../Data/Dummy";
-import AccordionItem from "./Modul/AccordionItem";
-import ProgressBar from "../../Components/ProgressBar";
+import { modulList } from "@/Data/Dummy";
+import Modul from "@/Pages/Admin/Modul/Modul";
 
 function Kelas() {
   const [openId, setOpenId] = useState(null);
   const [completed, setCompleted] = useState([]);
-  const progress = (completed.length / modulList.length) * 100;
+  const progress =
+    modulList.length > 0 ? (completed.length / modulList.length) * 100 : 0;
 
   const toggleAccordion = (id) => {
     setOpenId(openId === id ? null : id);
@@ -20,20 +20,14 @@ function Kelas() {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow">
-      <h1 className="text-2xl font-bold mb-4">Modul / Kelas</h1>
-      <div className="mb-6">
-        <h2 className="font-medium mb-2">Progress Belajar</h2>
-        <ProgressBar progress={progress} />
-        {modulList.map((materi) => (
-          <AccordionItem
-            key={materi.id}
-            materi={materi}
-            isOpen={openId === materi.id}
-            onToggle={() => toggleAccordion(materi.id)}
-            onMarkComplete={markAsComplete}
-          />
-        ))}
-      </div>
+      <h1 className="text-2xl font-bold mb-4">Modul</h1>
+      <Modul
+        progress={progress}
+        modulList={modulList}
+        openId={openId}
+        toggleAccordion={toggleAccordion}
+        markAsComplete={markAsComplete}
+      />
     </div>
   );
 }
