@@ -1,4 +1,4 @@
-import Header from "../Components/Heading";
+import Header from "@/Components/Heading";
 
 function AdminLayout({ children }) {
   return (
