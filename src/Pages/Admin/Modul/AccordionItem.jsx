@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+import useTanyaDosen from "./ModalTanya";
 import {
   CheckCircle,
   MessageSquare,
@@ -8,17 +8,11 @@ import {
 } from "lucide-react";
 
 function AccordionItem({ materi, isOpen, onToggle, onMarkComplete }) {
+  const { tanya } = useTanyaDosen();
   const handleAsk = async () => {
-    const { value: question } = await Swal.fire({
-      title: "Tanya Dosen",
-      input: "textarea",
-      inputLabel: "Pertanyaan",
-      inputPlaceholder: "Tulis pertanyaanmu di sini...",
-      showCancelButton: true,
-    });
-
-    if (question) {
-      Swal.fire("Berhasil!", "Pertanyaan berhasil dikirim.", "success");
+    const pertanyaan = await tanya();
+    if (pertanyaan) {
+      console.log("Pertanyaan:", pertanyaan);
     }
   };
 
