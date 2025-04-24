@@ -1,9 +1,21 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBook, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBook,
+  faSignOutAlt,
+  faBars,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   const handleLogout = () => {
     Swal.fire({
       title: "Apakah Anda yakin?",
@@ -37,7 +49,7 @@ const Header = () => {
           <span>Belajar Pintar</span>
           <FontAwesomeIcon icon={faBook} />
         </h1>
-        <nav>
+        <nav className="hidden md:block">
           <div className="flex items-center space-x-8">
             <Link
               to="/dashboard"
@@ -60,7 +72,46 @@ const Header = () => {
             </button>
           </div>
         </nav>
+
+        <div className="md:hidden">
+          <button
+            onClick={toggleMenu}
+            className="text-white focus:outline-none"
+          >
+            <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} size="lg" />
+          </button>
+        </div>
       </div>
+      {isMenuOpen && (
+        <div className="md:hidden absolute left-0 right-0 bg-indigo-600 shadow-lg z-50 mt-4 px-6 py-4 border-t border-indigo-500">
+          <nav className="flex flex-col space-y-4">
+            <Link
+              to="/dashboard"
+              className="hover:bg-indigo-700 py-2 px-3 rounded transition duration-300"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/kelas"
+              className="hover:bg-indigo-700 py-2 px-3 rounded transition duration-300"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Kelas
+            </Link>
+            <button
+              onClick={() => {
+                setIsMenuOpen(false);
+                handleLogout();
+              }}
+              className="flex items-center space-x-2 hover:bg-indigo-700 py-2 px-3 rounded transition duration-300 text-left w-full"
+            >
+              <span>Logout</span>
+              <FontAwesomeIcon icon={faSignOutAlt} />
+            </button>
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
