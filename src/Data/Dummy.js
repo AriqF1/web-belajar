@@ -18,3 +18,8 @@ export const modulList = [
     selesai: false,
   },
 ];
+export const stats = [
+  { label: "Materi Selesai", value: "1/5", icon: "BookOpen" },
+  { label: "Total Waktu", value: "4.5 Jam", icon: "Clock" },
+  { label: "Pencapaian", value: "2", icon: "Award" },
+];
