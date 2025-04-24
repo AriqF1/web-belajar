@@ -34,7 +34,11 @@ function Dashboard() {
     <div className="w-full">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="md:col-span-2 bg-white rounded-xl shadow-md p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-4"></div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Halo , {user.name || "Pengguna Anonim"}
+            </h2>
+          </div>
           <ProgressBar progress={progress} />
           <p className="text-sm text-gray-600 mt-2">
             {progress.toFixed(0)}% dari materi telah kamu baca nih. Teruskan
