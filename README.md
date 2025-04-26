@@ -1,12 +1,28 @@
-# React + Vite
+# Web Belajar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Web Belajar** is a web-based learning platform developed as part of a university project.  
+It is designed to help students easily access and manage their learning activities through a clean and simple interface.
 
-Currently, two official plugins are available:
+## 📚 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Login and Authentication**  
+  Secure login system to protect user data and manage access.
 
-## Expanding the ESLint configuration
+- **User Dashboard**  
+  Personalized dashboard showing an overview of the user's learning status.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Last Accessed Lessons**  
+  Quickly revisit the most recent lessons the user has engaged with.
+
+- **Learning Modules**  
+  Structured educational content divided into easy-to-follow modules.
+
+## 🛠️ Built With
+
+- **React JS** — Frontend library for building the user interface.
+
+## 📦 Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/AriqF1/web-belajar.git
