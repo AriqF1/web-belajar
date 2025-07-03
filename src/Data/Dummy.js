@@ -191,3 +191,24 @@ export const abilityRadar = [
   { subject: "Network", A: 60, fullMark: 100 },
   { subject: "UI/UX", A: 85, fullMark: 100 },
 ];
+
+export const classPerformance = [
+  { name: "Andi", score: 88, completion: 90 },
+  { name: "Budi", score: 72, completion: 60 },
+  { name: "Citra", score: 95, completion: 100 },
+  { name: "Doni", score: 65, completion: 50 },
+  { name: "Eka", score: 81, completion: 75 },
+  { name: "Fitri", score: 78, completion: 80 },
+];
+
+export const strugglingStudents = [
+  { id: 1, name: "Doni", reason: "Nilai rata-rata rendah (65)" },
+  { id: 2, name: "Budi", reason: "Penyelesaian modul lambat" },
+];
+
+export const classStats = {
+  averageScore: 79.8,
+  completionRate: 75,
+  totalHours: 450,
+  activeStudents: 25,
+};
