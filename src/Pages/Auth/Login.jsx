@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import LoginForm from "@/Components/Form";
+import LoginForm from "@/Components/Form"; // Asumsi komponen form Anda tetap sama
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -12,6 +12,14 @@ function Login() {
     email: "farhan@student.com",
     password: "password123",
     name: "Ariq Farhan",
+    role: "user",
+  };
+
+  const dummyInstructor = {
+    email: "instruktur@belajarpintar.com",
+    password: "password456",
+    name: "Rudi Santoso",
+    role: "instructor",
   };
 
   const handleSubmit = (e) => {
@@ -20,14 +28,31 @@ function Login() {
       const userData = {
         email: dummyUser.email,
         name: dummyUser.name,
+        role: dummyUser.role,
       };
 
       localStorage.setItem("user", JSON.stringify(userData));
-      toast.success("Login berhasil!");
+      toast.success(`Login berhasil! Selamat datang, ${dummyUser.name}`);
       navigate("/dashboard");
-    } else {
-      toast.error("Email atau password salah!");
+      return;
     }
+
+    if (
+      email === dummyInstructor.email &&
+      password === dummyInstructor.password
+    ) {
+      const userData = {
+        email: dummyInstructor.email,
+        name: dummyInstructor.name,
+        role: dummyInstructor.role,
+      };
+
+      localStorage.setItem("user", JSON.stringify(userData));
+      toast.success(`Login berhasil! Selamat datang, ${dummyInstructor.name}`);
+      navigate("/admin/instruktur");
+      return;
+    }
+    toast.error("Email atau password salah!");
   };
 
   return (
