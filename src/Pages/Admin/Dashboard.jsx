@@ -338,7 +338,7 @@ function Dashboard() {
             </div>
 
             <div className="bg-white/80 backdrop-blur-sm p-6 shadow-lg rounded-2xl border border-white/20">
-              <h3 className="text-xl font-bold text-gray-800 mb-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
                 Akumulasi Jam Belajar
               </h3>
               <ResponsiveContainer width="100%" height={300}>
