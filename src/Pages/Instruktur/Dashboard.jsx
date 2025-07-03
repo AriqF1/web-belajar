@@ -15,13 +15,9 @@ import { BookCheck, Clock, Award, Users, AlertTriangle } from "lucide-react";
 
 import { classPerformance, strugglingStudents, classStats } from "@/Data/Dummy";
 import CustomTooltip from "@/Components/CustomTooltip";
+import { useUser } from "@/Hooks/useUser";
 function InstructorDashboard() {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    setUser(userData || { name: "Instruktur" });
-  }, []);
+  const user = useUser();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">

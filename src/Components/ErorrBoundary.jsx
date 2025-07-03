@@ -13,7 +13,6 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    s;
     console.error("Uncaught error:", error, errorInfo);
   }
 
@@ -38,7 +37,7 @@ class ErrorBoundary extends React.Component {
             </details>
             <Button
               onClick={() => window.location.reload()}
-              className="mt-6 bg-indigo-600 text-white hover:bg-indigo-700"
+              className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:from-indigo-700 hover:to-indigo-800 transition-all duration-200 cursor-pointer"
             >
               Muat Ulang Halaman
             </Button>

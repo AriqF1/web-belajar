@@ -30,6 +30,7 @@ import {
   learningTimeAccumulation,
 } from "@/Data/Dummy";
 import CustomTooltip from "@/Components/CustomTooltip";
+import { useUser } from "@/Hooks/useUser";
 
 const COLORS = ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"];
 const GRADIENT_COLORS = {
@@ -41,12 +42,7 @@ const GRADIENT_COLORS = {
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    setUser(userData || {});
-  }, []);
+  const user = useUser();
 
   const lastModule = modules.find((m) => m.status === "Sedang Berjalan");
   const bookmarkedModule = modules.find((m) => m.bookmarked);
@@ -58,7 +54,7 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Halo, {user.name || "Sobat Belajar"}! 👋
+                <h1>Halo, {user?.name || "Sobat Belajar"}!</h1>
               </h1>
               <p className="text-gray-600 mt-2 text-lg">
                 Selamat datang kembali! Ini adalah ringkasan progres dan
@@ -68,7 +64,7 @@ function Dashboard() {
             <div className="hidden md:block">
               <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
                 <span className="text-white text-2xl font-bold">
-                  {user.name?.[0] || "S"}
+                  {user?.name?.[0] || "S"}
                 </span>
               </div>
             </div>
