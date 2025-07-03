@@ -143,6 +143,7 @@ export const achievements = [
     title: "Langkah Pertama",
     description: "Selesaikan modul pertamamu.",
     achieved: true,
+    progress: 100,
     rarity: "Common",
   },
   {
@@ -164,8 +165,9 @@ export const achievements = [
   {
     id: 4,
     title: "Kolektor Pengetahuan",
-    description: "Selesaikan 5 modul.",
+    description: "Selesaikan 5 modul dari kategori yang berbeda.",
     achieved: true,
+    progress: 100,
     rarity: "Rare",
   },
   {
@@ -175,6 +177,46 @@ export const achievements = [
     achieved: false,
     progress: 50,
     rarity: "Epic",
+  },
+  {
+    id: 6,
+    title: "Kontributor Forum",
+    description: "Buat thread pertama Anda di forum diskusi.",
+    achieved: true,
+    progress: 100,
+    rarity: "Common",
+  },
+  {
+    id: 7,
+    title: "Problem Solver",
+    description: "Bantu jawab 5 thread di forum hingga terpecahkan.",
+    achieved: false,
+    progress: 40,
+    rarity: "Rare",
+  },
+  {
+    id: 8,
+    title: "Spesialis Database",
+    description: "Selesaikan semua modul kategori Database.",
+    achieved: true,
+    progress: 100,
+    rarity: "Epic",
+  },
+  {
+    id: 9,
+    title: "Pembelajar Cepat",
+    description: "Selesaikan sebuah modul dalam waktu kurang dari 1 jam.",
+    achieved: false,
+    progress: 0,
+    rarity: "Rare",
+  },
+  {
+    id: 10,
+    title: "Master Belajar Pintar",
+    description: "Raih semua pencapaian lainnya.",
+    achieved: false,
+    progress: 70,
+    rarity: "Legendary",
   },
 ];
 
