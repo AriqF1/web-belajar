@@ -61,7 +61,7 @@ function StudentQuizPage() {
                 </div>
                 <Button
                   onClick={() => setSelectedQuiz(quiz)}
-                  className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:from-indigo-700 hover:to-indigo-800 transition-all duration-200 cursor-pointer"
+                  className="w-40 flex items-center justify-center bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:from-indigo-700 hover:to-indigo-800 transition-all duration-200 cursor-pointer"
                 >
                   <PlayCircle size={18} className="mr-2" />
                   Kerjakan
