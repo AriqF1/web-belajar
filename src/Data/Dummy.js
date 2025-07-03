@@ -90,7 +90,7 @@ export const quizzes = [
       },
       {
         id: 3,
-        type: "true-false",
+        type: "essay",
         question: "Props di React bersifat immutable (tidak bisa diubah).",
         answer: "true",
       },
