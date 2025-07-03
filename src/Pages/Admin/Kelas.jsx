@@ -1,46 +1,161 @@
-import { useState } from "react";
-import { modulList } from "@/Data/Dummy";
-import Modul from "@/Pages/Admin/Modul/Modul";
-import ReactIntro from "@/Data/Text";
+import React, { useState, useEffect } from "react";
+import { CheckCircle, BookOpen, Clock, Zap } from "lucide-react";
+import { modules as initialModules } from "@/Data/Dummy";
+import { kontenModul } from "@/Data/KontenModul";
+import Button from "@/Components/Button";
+import toast from "react-hot-toast";
 
 function Kelas() {
-  const [openId, setOpenId] = useState(null);
-  const [completed, setCompleted] = useState([]);
-  const progress =
-    modulList.length > 0 ? (completed.length / modulList.length) * 100 : 0;
+  const [modules, setModules] = useState(initialModules);
+  const [selectedModule, setSelectedModule] = useState(null);
 
-  const toggleAccordion = (id) => {
-    setOpenId(openId === id ? null : id);
+  useEffect(() => {
+    if (modules.length > 0) {
+      setSelectedModule(modules[0]);
+    }
+  }, []);
+
+  const handleSelectModule = (module) => {
+    setSelectedModule(module);
   };
 
-  const markAsComplete = (id) => {
-    if (!completed.includes(id)) {
-      setCompleted([...completed, id]);
+  const handleMarkAsComplete = (moduleId) => {
+    const updatedModules = modules.map((m) =>
+      m.id === moduleId ? { ...m, status: "Selesai" } : m
+    );
+    setModules(updatedModules);
+
+    if (selectedModule && selectedModule.id === moduleId) {
+      setSelectedModule({ ...selectedModule, status: "Selesai" });
+    }
+
+    toast.success("Modul ditandai selesai!");
+  };
+
+  const completedCount = modules.filter((m) => m.status === "Selesai").length;
+  const progress =
+    modules.length > 0 ? (completedCount / modules.length) * 100 : 0;
+
+  const getStatusIndicator = (status) => {
+    switch (status) {
+      case "Selesai":
+        return <CheckCircle className="text-green-500" size={20} />;
+      case "Sedang Berjalan":
+        return <Clock className="text-yellow-500" size={20} />;
+      default:
+        return <BookOpen className="text-gray-400" size={20} />;
     }
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div className="md:col-span-2 bg-white rounded-xl shadow-md p-6 border border-gray-100">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Pengenalan React JS
-          </h2>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
+      <div className="mx-auto space-y-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
+            Materi Pembelajaran
+          </h1>
+          <p className="text-gray-600 mt-2 text-lg">
+            Pilih modul di sebelah kanan untuk memulai pembelajaran Anda.
+          </p>
+          <div className="mt-4">
+            <p className="text-sm font-medium text-gray-700 mb-1">
+              Progress Keseluruhan:
+            </p>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className="bg-gradient-to-r from-blue-500 to-teal-400 h-3 rounded-full transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <p className="text-right text-sm font-semibold text-gray-600 mt-1">
+              {progress.toFixed(0)}% Selesai
+            </p>
+          </div>
         </div>
-        <div className="space-y-4 text-gray-700">{ReactIntro}</div>
-      </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 h-fit">
-        <h1 className="text-2xl font-bold mb-4">Modul</h1>
-        <Modul
-          progress={progress}
-          modulList={modulList}
-          openId={openId}
-          toggleAccordion={toggleAccordion}
-          markAsComplete={markAsComplete}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm p-8 shadow-lg rounded-2xl border border-white/20">
+            {selectedModule ? (
+              <div>
+                <span
+                  className={`inline-block px-3 py-1 text-xs font-semibold rounded-full mb-4 ${
+                    selectedModule.status === "Selesai"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
+                >
+                  {selectedModule.status}
+                </span>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2 italic">
+                  {selectedModule.title}
+                </h2>
+                <div className="prose max-w-none text-gray-700 mb-6 text-justify">
+                  {kontenModul[selectedModule.id] || (
+                    <p>Konten untuk modul ini belum tersedia.</p>
+                  )}
+                </div>
+
+                <div className="mt-8 border-t pt-6">
+                  <Button
+                    onClick={() => handleMarkAsComplete(selectedModule.id)}
+                    disabled={selectedModule.status === "Selesai"}
+                    className="flex items-center justify-center w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <CheckCircle className="mr-2" size={20} />
+                    {selectedModule.status === "Selesai"
+                      ? "Telah Selesai"
+                      : "Tandai sebagai Selesai"}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <p>
+                  Pilih sebuah modul dari daftar di sebelah kanan untuk melihat
+                  kontennya.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Module List */}
+          <div className="lg:col-span-1 bg-white/80 backdrop-blur-sm p-6 shadow-lg rounded-2xl border border-white/20 h-fit">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              Daftar Modul
+            </h3>
+            <div className="space-y-2">
+              {modules.map((module) => (
+                <button
+                  key={module.id}
+                  onClick={() => handleSelectModule(module)}
+                  className={`w-full text-left p-4 rounded-lg transition-all duration-300 flex items-center justify-between ${
+                    selectedModule?.id === module.id
+                      ? "bg-indigo-100 border-indigo-400 shadow-md"
+                      : "hover:bg-gray-100 hover:border-gray-300"
+                  } border`}
+                >
+                  <div className="flex items-center">
+                    <div className="mr-4">
+                      {getStatusIndicator(module.status)}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">
+                        {module.title}
+                      </p>
+                      <p className="text-xs text-gray-500">{module.category}</p>
+                    </div>
+                  </div>
+                  {selectedModule?.id === module.id && (
+                    <Zap className="text-indigo-500" size={18} />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+
 export default Kelas;
