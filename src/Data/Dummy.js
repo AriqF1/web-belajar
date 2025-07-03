@@ -88,6 +88,12 @@ export const quizzes = [
         question: "Props di React bersifat immutable (tidak bisa diubah).",
         answer: "true",
       },
+      {
+        id: 3,
+        type: "true-false",
+        question: "Props di React bersifat immutable (tidak bisa diubah).",
+        answer: "true",
+      },
     ],
   },
   {
@@ -106,6 +112,29 @@ export const quizzes = [
       },
     ],
   },
+];
+export const quizScoresHistory = [
+  { quizName: "Kuis 1: Dasar", score: 80 },
+  { quizName: "Kuis 2: State", score: 75 },
+  { quizName: "Kuis 3: Props", score: 90 },
+  { quizName: "Kuis 4: Hooks", score: 85 },
+  { quizName: "Kuis 5: Router", score: 95 },
+];
+
+export const questionAccuracy = [
+  { question: "Soal 1", accuracy: 100 },
+  { question: "Soal 2", accuracy: 75 },
+  { question: "Soal 3", accuracy: 50 },
+  { question: "Soal 4", accuracy: 90 },
+  { question: "Soal 5", accuracy: 100 },
+];
+
+export const timePerQuestion = [
+  { question: "Soal 1", time: 35 },
+  { question: "Soal 2", time: 55 },
+  { question: "Soal 3", time: 70 },
+  { question: "Soal 4", time: 40 },
+  { question: "Soal 5", time: 30 },
 ];
 
 export const achievements = [
