@@ -1,4 +1,4 @@
-export const LevelBadge = ({ level }) => {
+const LevelBadge = ({ level }) => {
   const styles = {
     Master: "bg-yellow-100 text-yellow-800",
     Contributor: "bg-blue-100 text-blue-800",
@@ -14,3 +14,5 @@ export const LevelBadge = ({ level }) => {
     </span>
   );
 };
+
+export default LevelBadge;

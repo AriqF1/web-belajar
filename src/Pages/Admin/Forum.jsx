@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useReducer, useMemo, useState } from "react";
 import {
   Search,
   ChevronDown,
@@ -10,24 +10,27 @@ import {
   Pin,
   Shield,
 } from "lucide-react";
-import { forumThreads as initialThreads } from "@/Data/Dummy";
+import { forumReducer, initialForumState } from "@/Reducers/forumReducer";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
-import { LevelBadge } from "@/Components/LevelBadge";
+import toast from "react-hot-toast";
+import LevelBadge from "@/Components/LevelBadge";
 
 function ForumPage() {
-  const [threads, setThreads] = useState(initialThreads);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("terbaru");
+  const [state, dispatch] = useReducer(forumReducer, initialForumState);
+  const { threads, searchTerm, sortBy } = state;
+
   const [newThread, setNewThread] = useState({ title: "", content: "" });
 
   const filteredAndSortedThreads = useMemo(() => {
-    let sortedThreads = [...threads];
+    let sortedThreads = [...threads].sort((a, b) => b.isPinned - a.isPinned);
+
     if (sortBy === "popularitas") {
       sortedThreads.sort((a, b) => b.votes - a.votes);
-    } else {
+    } else if (sortBy === "terbaru") {
       sortedThreads.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
+
     if (!searchTerm) {
       return sortedThreads;
     }
@@ -38,20 +41,28 @@ function ForumPage() {
 
   const handleAddThread = (e) => {
     e.preventDefault();
-    if (!newThread.title || !newThread.content) return;
+    if (!newThread.title || !newThread.content) {
+      toast.error("Judul dan isi pertanyaan tidak boleh kosong!");
+      return;
+    }
+
     const threadToAdd = {
       id: Date.now(),
       title: newThread.title,
       content: newThread.content,
       author: "Anda",
+      authorLevel: "Newbie",
       date: new Date().toISOString(),
       votes: 0,
       replies: 0,
       tags: ["diskusi-baru"],
       solved: false,
+      isPinned: false,
     };
-    setThreads((prev) => [threadToAdd, ...prev]);
+    dispatch({ type: "ADD_THREAD", payload: threadToAdd });
+
     setNewThread({ title: "", content: "" });
+    toast.success("Thread berhasil dibuat!");
   };
 
   return (
@@ -77,13 +88,17 @@ function ForumPage() {
               id="search"
               type="text"
               placeholder="Cari diskusi berdasarkan judul..."
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) =>
+                dispatch({ type: "SET_SEARCH_TERM", payload: e.target.value })
+              }
               className="pl-10"
             />
           </div>
           <div className="relative">
             <select
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) =>
+                dispatch({ type: "SET_SORT_BY", payload: e.target.value })
+              }
               className="appearance-none w-full md:w-auto bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
             >
               <option value="terbaru">Urutkan: Terbaru</option>
@@ -101,10 +116,20 @@ function ForumPage() {
             {filteredAndSortedThreads.map((thread) => (
               <div
                 key={thread.id}
-                className="bg-white/90 backdrop-blur-sm p-5 rounded-xl shadow-md border hover:border-indigo-300 transition-all"
+                className={`bg-white/90 backdrop-blur-sm p-5 rounded-xl shadow-md border transition-all ${
+                  thread.isPinned
+                    ? "border-yellow-400"
+                    : "hover:border-indigo-300"
+                }`}
               >
-                <div className="flex justify-between items-start gap-4">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                <div className="flex justify-between items-start gap-4 mb-2">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {thread.isPinned && (
+                      <Pin
+                        size={16}
+                        className="inline-block mr-2 text-yellow-500"
+                      />
+                    )}
                     {thread.title}
                   </h3>
                   {thread.solved && (
@@ -115,10 +140,10 @@ function ForumPage() {
                 </div>
 
                 <div className="flex flex-wrap items-center text-xs text-gray-500 gap-x-4 gap-y-2">
-                  <span>
+                  <span className="flex items-center gap-1.5">
                     oleh <strong>{thread.author}</strong>
+                    <LevelBadge level={thread.authorLevel || "Newbie"} />
                   </span>
-                  <LevelBadge level={thread.authorLevel || "Newbie"} />
                   <span>
                     {new Date(thread.date).toLocaleDateString("id-ID", {
                       year: "numeric",
@@ -135,7 +160,8 @@ function ForumPage() {
                     {thread.replies} Balasan
                   </span>
                 </div>
-                <div className="mt-3 flex flex-wrap gap-2">
+
+                <div className="mt-4 flex flex-wrap gap-2">
                   {thread.tags.map((tag) => (
                     <span
                       key={tag}
@@ -146,14 +172,15 @@ function ForumPage() {
                     </span>
                   ))}
                 </div>
+
                 <div className="mt-4 pt-3 border-t border-gray-100 flex justify-end items-center gap-4">
-                  <Button className="flex items-center text-xs text-gray-500 hover:text-green-600 bg-transparent p-0 cursor-pointer">
+                  <Button className="flex items-center text-xs text-gray-500 hover:text-green-600 bg-transparent p-0">
                     <Award size={14} className="mr-1" /> Beri Poin
                   </Button>
-                  <Button className="flex items-center text-xs text-gray-500 hover:text-yellow-600 bg-transparent p-0 cursor-pointer">
+                  <Button className="flex items-center text-xs text-gray-500 hover:text-yellow-600 bg-transparent p-0">
                     <Pin size={14} className="mr-1" /> Pin Thread
                   </Button>
-                  <Button className="flex items-center text-xs text-gray-500 hover:text-red-600 bg-transparent p-0 cursor-pointer">
+                  <Button className="flex items-center text-xs text-gray-500 hover:text-red-600 bg-transparent p-0">
                     <Shield size={14} className="mr-1" /> Laporkan
                   </Button>
                 </div>
