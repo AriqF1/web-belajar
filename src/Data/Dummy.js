@@ -216,7 +216,7 @@ export const achievements = [
     description: "Raih semua pencapaian lainnya.",
     achieved: false,
     progress: 70,
-    rarity: "Epic",
+    rarity: "Legendary",
   },
 ];
 

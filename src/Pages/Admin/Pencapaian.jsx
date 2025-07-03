@@ -1,10 +1,14 @@
 import React from "react";
 import { usePencapaian } from "@/Context/PencapaianContext";
-import { Award, Star, Zap } from "lucide-react";
+import { modules } from "@/Data/Dummy";
+import { Award, Star, Zap, Map, Trophy, GitBranch } from "lucide-react";
 import RarityBadge from "@/Components/RarityBadge";
 
 function PencapaianPage() {
-  const { achievements, unlockAchievement } = usePencapaian();
+  const { achievements } = usePencapaian();
+
+  const achievedBadges = achievements.filter((ach) => ach.achieved);
+  const inProgressAchievements = achievements.filter((ach) => !ach.achieved);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
@@ -19,60 +23,88 @@ function PencapaianPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {achievements.map((ach) => (
-            <div
-              key={ach.id}
-              className={`bg-white/90 backdrop-blur-sm p-6 shadow-lg rounded-2xl border transition-all duration-300 ${
-                ach.achieved ? "border-yellow-400" : "border-white/20"
-              }`}
-            >
-              <div className="flex justify-between items-start mb-4">
+        <div className="bg-white/80 backdrop-blur-sm p-6 shadow-lg rounded-2xl border border-white/20">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <Map size={24} className="mr-3 text-blue-600" />
+            Learning Path
+          </h2>
+          <div className="flex overflow-x-auto space-x-4 pb-4">
+            {modules.map((module, index) => (
+              <div key={module.id} className="flex-shrink-0 flex items-center">
                 <div
-                  className={`flex items-center justify-center h-12 w-12 rounded-xl ${
-                    ach.achieved ? "bg-yellow-400" : "bg-gray-200"
+                  className={`flex flex-col items-center p-4 border rounded-xl w-40 text-center ${
+                    module.status === "Selesai"
+                      ? "bg-green-50 border-green-300"
+                      : "bg-white"
                   }`}
                 >
-                  <Award
-                    size={28}
-                    className={ach.achieved ? "text-white" : "text-gray-400"}
-                  />
+                  <div
+                    className={`h-12 w-12 flex items-center justify-center rounded-full mb-2 ${
+                      module.status === "Selesai"
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-200 text-gray-500"
+                    }`}
+                  >
+                    <Zap size={24} />
+                  </div>
+                  <p className="text-sm font-semibold text-gray-800">
+                    {module.title}
+                  </p>
+                  <p className="text-xs text-gray-500">{module.category}</p>
                 </div>
-                <RarityBadge rarity={ach.rarity} />
-              </div>
-
-              <h3
-                className={`font-bold text-lg ${
-                  ach.achieved ? "text-gray-900" : "text-gray-700"
-                }`}
-              >
-                {ach.title}
-              </h3>
-              <p className="text-sm text-gray-500 mt-1 h-10">
-                {ach.description}
-              </p>
-
-              <div className="mt-4">
-                {ach.achieved ? (
-                  <div className="flex items-center justify-center text-center py-2 bg-green-100 text-green-700 font-bold rounded-lg text-sm">
-                    <Star size={16} className="mr-2" /> Diraih
-                  </div>
-                ) : (
-                  <div>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div
-                        className="bg-gradient-to-r from-blue-500 to-teal-400 h-2.5 rounded-full transition-all duration-500"
-                        style={{ width: `${ach.progress || 0}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-right text-xs font-semibold text-gray-500 mt-1">
-                      {ach.progress || 0}%
-                    </p>
-                  </div>
+                {index < modules.length - 1 && (
+                  <div className="w-16 border-t-2 border-dashed mx-2"></div>
                 )}
               </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="bg-white/80 backdrop-blur-sm p-6 shadow-lg rounded-2xl border border-white/20">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+              <Trophy size={24} className="mr-3 text-yellow-500" />
+              Koleksi Lencana
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {achievedBadges.map((badge) => (
+                <div
+                  key={badge.id}
+                  className="text-center p-4 bg-yellow-50 border border-yellow-200 rounded-xl"
+                >
+                  <Award size={40} className="mx-auto text-yellow-500" />
+                  <p className="font-bold mt-2 text-gray-800">{badge.title}</p>
+                  <RarityBadge rarity={badge.rarity} />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          <div className="bg-white/80 backdrop-blur-sm p-6 shadow-lg rounded-2xl border border-white/20">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+              <GitBranch size={24} className="mr-3 text-purple-600" />
+              Pencapaian Berikutnya
+            </h2>
+            <div className="space-y-5">
+              {inProgressAchievements.map((ach) => (
+                <div key={ach.id}>
+                  <div className="flex justify-between items-center mb-1">
+                    <p className="font-semibold text-gray-800">{ach.title}</p>
+                    <RarityBadge rarity={ach.rarity} />
+                  </div>
+                  <p className="text-sm text-gray-500 mb-2">
+                    {ach.description}
+                  </p>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="bg-gradient-to-r from-purple-500 to-indigo-500 h-2.5 rounded-full"
+                      style={{ width: `${ach.progress || 0}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
