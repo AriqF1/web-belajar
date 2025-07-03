@@ -5,6 +5,7 @@ import { initialQuizState, quizReducer } from "@/reducers/quizReducer";
 import Button from "@/Components/Button";
 import { ArrowLeft, ArrowRight, Clock, Flag } from "lucide-react";
 import Swal from "sweetalert2";
+import AnswerOptions from "./AnswerOptions";
 
 function QuizTaking({ quiz, onFinish }) {
   const [state, dispatch] = useReducer(quizReducer, initialQuizState);
@@ -52,6 +53,10 @@ function QuizTaking({ quiz, onFinish }) {
   const totalQuestions = questions.length;
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
+  const handleAnswerSelect = (answer) => {
+    dispatch({ type: "ANSWER_QUESTION", payload: { answer } });
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 bg-white/80 backdrop-blur-sm p-8 shadow-lg rounded-2xl border border-white/20">
@@ -89,8 +94,13 @@ function QuizTaking({ quiz, onFinish }) {
             </Button>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mt-2">
-            {currentQuestion.text}
+            {currentQuestion.question}
           </h3>
+          <AnswerOptions
+            question={currentQuestion}
+            selectedAnswer={answers[currentQuestionIndex]}
+            onAnswerChange={handleAnswerSelect}
+          />
         </div>
 
         <div className="flex justify-between items-center mt-8 pt-6 border-t">
