@@ -42,7 +42,7 @@ const GRADIENT_COLORS = {
 
 function Dashboard() {
   const navigate = useNavigate();
-  const user = useUser();
+  const { user } = useUser();
 
   const lastModule = modules.find((m) => m.status === "Sedang Berjalan");
   const bookmarkedModule = modules.find((m) => m.bookmarked);

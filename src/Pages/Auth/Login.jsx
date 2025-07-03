@@ -1,58 +1,50 @@
 import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "@/Api/axiosInstance";
 import toast from "react-hot-toast";
 import LoginForm from "@/Components/Form";
-import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
+
+const loginUser = async ({ email, password }) => {
+  const { data: users } = await axiosInstance.get(`/users?email=${email}`);
+
+  if (users.length === 1 && users[0].password === password) {
+    return users[0];
+  } else {
+    throw new Error("Email atau password yang Anda masukkan salah.");
+  }
+};
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dummyUser = {
-    email: "farhan@student.com",
-    password: "password123",
-    name: "Ariq Farhan",
-    role: "user",
-  };
+  const { mutate: handleLogin, isLoading } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      toast.success(`Login berhasil! Selamat datang, ${data.name}`);
 
-  const dummyInstructor = {
-    email: "instruktur@belajarpintar.com",
-    password: "password456",
-    name: "Rudi Santoso",
-    role: "instructor",
-  };
+      localStorage.setItem("user", JSON.stringify(data));
+      if (data.role === "instructor") {
+        navigate("/admin/instruktur");
+      } else {
+        navigate("/dashboard");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email === dummyUser.email && password === dummyUser.password) {
-      const userData = {
-        email: dummyUser.email,
-        name: dummyUser.name,
-        role: dummyUser.role,
-      };
-
-      localStorage.setItem("user", JSON.stringify(userData));
-      toast.success(`Login berhasil! Selamat datang, ${dummyUser.name}`);
-      navigate("/dashboard");
+    if (!email || !password) {
+      toast.error("Email dan password harus diisi!");
       return;
     }
-
-    if (
-      email === dummyInstructor.email &&
-      password === dummyInstructor.password
-    ) {
-      const userData = {
-        email: dummyInstructor.email,
-        name: dummyInstructor.name,
-        role: dummyInstructor.role,
-      };
-
-      localStorage.setItem("user", JSON.stringify(userData));
-      toast.success(`Login berhasil! Selamat datang, ${dummyInstructor.name}`);
-      navigate("/admin/instruktur");
-      return;
-    }
-    toast.error("Email atau password salah!");
+    handleLogin({ email, password });
   };
 
   return (
@@ -63,6 +55,7 @@ function Login() {
         setEmail={setEmail}
         setPassword={setPassword}
         handleSubmit={handleSubmit}
+        isLoading={isLoading}
       />
     </div>
   );

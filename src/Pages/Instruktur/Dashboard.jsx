@@ -26,7 +26,7 @@ import Button from "@/Components/Button";
 import { useUser } from "@/Hooks/useUser";
 
 function InstructorDashboard() {
-  const user = useUser();
+  const { user } = useUser();
   const [activeTab, setActiveTab] = useState("upload");
 
   return (

@@ -1,35 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { CheckCircle, BookOpen, Clock, Zap } from "lucide-react";
-import { modules as initialModules } from "@/Data/Dummy";
 import { kontenModul } from "@/Data/KontenModul";
 import Button from "@/Components/Button";
-import toast from "react-hot-toast";
+import { useModules } from "@/Hooks/useModules";
 
 function Kelas() {
-  const [modules, setModules] = useState(initialModules);
+  const { modules, isLoading, isError, markModuleAsComplete, isUpdating } =
+    useModules();
+
   const [selectedModule, setSelectedModule] = useState(null);
 
   useEffect(() => {
-    if (modules.length > 0) {
+    if (!isLoading && modules && modules.length > 0) {
       setSelectedModule(modules[0]);
     }
-  }, []);
+  }, [isLoading, modules]);
 
   const handleSelectModule = (module) => {
     setSelectedModule(module);
-  };
-
-  const handleMarkAsComplete = (moduleId) => {
-    const updatedModules = modules.map((m) =>
-      m.id === moduleId ? { ...m, status: "Selesai" } : m
-    );
-    setModules(updatedModules);
-
-    if (selectedModule && selectedModule.id === moduleId) {
-      setSelectedModule({ ...selectedModule, status: "Selesai" });
-    }
-
-    toast.success("Modul ditandai selesai!");
   };
 
   const completedCount = modules.filter((m) => m.status === "Selesai").length;
@@ -46,6 +34,17 @@ function Kelas() {
         return <BookOpen className="text-gray-400" size={20} />;
     }
   };
+
+  if (isLoading) {
+    return <div className="p-6 text-center">Memuat materi pembelajaran...</div>;
+  }
+
+  // Tampilkan status error
+  if (isError) {
+    return (
+      <div className="p-6 text-center text-red-500">Gagal memuat modul.</div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
@@ -94,15 +93,16 @@ function Kelas() {
                     <p>Konten untuk modul ini belum tersedia.</p>
                   )}
                 </div>
-
                 <div className="mt-8 border-t pt-6">
                   <Button
-                    onClick={() => handleMarkAsComplete(selectedModule.id)}
-                    disabled={selectedModule.status === "Selesai"}
+                    onClick={() => markModuleAsComplete(selectedModule.id)}
+                    disabled={selectedModule.status === "Selesai" || isUpdating}
                     className="flex items-center justify-center w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <CheckCircle className="mr-2" size={20} />
-                    {selectedModule.status === "Selesai"
+                    {isUpdating
+                      ? "Memperbarui..."
+                      : selectedModule.status === "Selesai"
                       ? "Telah Selesai"
                       : "Tandai sebagai Selesai"}
                   </Button>
@@ -110,15 +110,10 @@ function Kelas() {
               </div>
             ) : (
               <div className="text-center py-10">
-                <p>
-                  Pilih sebuah modul dari daftar di sebelah kanan untuk melihat
-                  kontennya.
-                </p>
+                <p>Pilih sebuah modul dari daftar untuk melihat kontennya.</p>
               </div>
             )}
           </div>
-
-          {/* Right Column: Module List */}
           <div className="lg:col-span-1 bg-white/80 backdrop-blur-sm p-6 shadow-lg rounded-2xl border border-white/20 h-fit">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">
               Daftar Modul
