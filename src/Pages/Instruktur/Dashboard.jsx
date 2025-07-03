@@ -26,7 +26,6 @@ function InstructorDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
       <div className="mx-auto space-y-8">
-        {/* Header Section */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
           <div className="flex items-center justify-between">
             <div>
@@ -115,7 +114,6 @@ function InstructorDashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          s
           <div className="lg:col-span-1 bg-white/80 backdrop-blur-sm p-6 shadow-lg rounded-2xl border border-white/20">
             <div className="flex items-center mb-4">
               <AlertTriangle className="text-red-500 w-6 h-6 mr-3" />
