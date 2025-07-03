@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Plus, Eye, Edit, Trash2, FileText, XCircle } from "lucide-react";
 import { quizzes as initialQuizzes, modules } from "@/Data/Dummy";
 import Input from "@/Components/Input";
-import Button from "@/Components/Button"; // <-- Your Button component is now used
+import Button from "@/Components/Button";
 import toast from "react-hot-toast";
 
 function DashboardQuiz() {
@@ -105,7 +105,6 @@ function DashboardQuiz() {
                 value={quizDetails.title}
                 onChange={handleChange}
               />
-              {/* Other form inputs remain the same */}
             </div>
             <div className="mt-6 border-t border-gray-200 pt-6">
               <div className="flex justify-between items-center mb-4">
@@ -157,7 +156,6 @@ function DashboardQuiz() {
                       className="block w-full px-3 py-2 border border-gray-300 rounded-md"
                       rows="2"
                     ></textarea>
-                    {/* ... conditional rendering for answer types ... */}
                   </div>
                 ))}
               </div>

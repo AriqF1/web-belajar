@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import LoginForm from "@/Components/Form"; // Asumsi komponen form Anda tetap sama
+import LoginForm from "@/Components/Form";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
