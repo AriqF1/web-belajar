@@ -1,25 +1,193 @@
-export const modulList = [
+export const modules = [
   {
-    id: "modul-1",
-    judul: "Pengenalan React",
-    deskripsi: "Dasar-dasar ReactJs dan komponen",
-    selesai: false,
+    id: 1,
+    title: "Pengenalan React",
+    category: "Programming",
+    status: "Selesai",
+    bookmarked: true,
   },
   {
-    id: "modul-2",
-    judul: "State & Props",
-    deskripsi: "Penjelasan tentang state, props, dan one-way data flow",
-    selesai: false,
+    id: 2,
+    title: "State & Props Lanjutan",
+    category: "Programming",
+    status: "Sedang Berjalan",
   },
   {
-    id: "modul-3",
-    judul: "React Router DOM",
-    deskripsi: "Navigasi antar halaman dengan routing",
-    selesai: false,
+    id: 3,
+    title: "React Router DOM",
+    category: "Programming",
+    status: "Belum Dimulai",
+  },
+  {
+    id: 4,
+    title: "Dasar-dasar Jaringan",
+    category: "Network",
+    status: "Selesai",
+  },
+  {
+    id: 5,
+    title: "Normalisasi Database",
+    category: "Database",
+    status: "Selesai",
+  },
+  {
+    id: 6,
+    title: "Pengenalan UI/UX",
+    category: "UI/UX",
+    status: "Belum Dimulai",
+  },
+  {
+    id: 7,
+    title: "Advanced Hooks",
+    category: "Programming",
+    status: "Sedang Berjalan",
+  },
+  {
+    id: 8,
+    title: "Manajemen State dengan Context",
+    category: "Programming",
+    status: "Belum Dimulai",
+  },
+  {
+    id: 9,
+    title: "Query & Mutation dengan React Query",
+    category: "Programming",
+    status: "Belum Dimulai",
+  },
+  {
+    id: 10,
+    title: "Desain Relasional",
+    category: "Database",
+    status: "Selesai",
   },
 ];
-export const stats = [
-  { label: "Materi Selesai", value: "1/5", icon: "BookOpen" },
-  { label: "Total Waktu", value: "4.5 Jam", icon: "Clock" },
-  { label: "Pencapaian", value: "2", icon: "Award" },
+
+export const quizzes = [
+  {
+    id: 1,
+    moduleId: 1,
+    title: "Kuis Pengenalan React",
+    timeLimit: 600,
+    passingGrade: 80,
+    questions: [
+      {
+        id: 1,
+        type: "multiple-choice",
+        question:
+          "Apa fungsi utama dari `render()` dalam komponen class React?",
+        options: [
+          "Memperbarui state",
+          "Menampilkan elemen ke DOM",
+          "Menangani event",
+        ],
+        answer: "Menampilkan elemen ke DOM",
+      },
+      {
+        id: 2,
+        type: "true-false",
+        question: "Props di React bersifat immutable (tidak bisa diubah).",
+        answer: "true",
+      },
+    ],
+  },
+  {
+    id: 2,
+    moduleId: 2,
+    title: "Kuis State & Props",
+    timeLimit: 900,
+    passingGrade: 75,
+    questions: [
+      {
+        id: 1,
+        type: "multiple-choice",
+        question: "Bagaimana cara memperbarui state di komponen class?",
+        options: ["this.state = {}", "this.updateState()", "this.setState()"],
+        answer: "this.setState()",
+      },
+    ],
+  },
+];
+
+export const achievements = [
+  {
+    id: 1,
+    title: "Langkah Pertama",
+    description: "Selesaikan modul pertamamu.",
+    achieved: true,
+    rarity: "Common",
+  },
+  {
+    id: 2,
+    title: "Maraton Belajar",
+    description: "Belajar selama 3 hari berturut-turut.",
+    achieved: true,
+    progress: 100,
+    rarity: "Rare",
+  },
+  {
+    id: 3,
+    title: "Ahli Kuis",
+    description: "Dapatkan nilai 100 di 3 kuis.",
+    achieved: false,
+    progress: 33,
+    rarity: "Epic",
+  },
+  {
+    id: 4,
+    title: "Kolektor Pengetahuan",
+    description: "Selesaikan 5 modul.",
+    achieved: true,
+    rarity: "Rare",
+  },
+  {
+    id: 5,
+    title: "Programmer Andal",
+    description: "Selesaikan semua modul kategori Programming.",
+    achieved: false,
+    progress: 50,
+    rarity: "Epic",
+  },
+];
+
+export const weeklyProgress = [
+  { week: "Minggu 1", progress: 2 },
+  { week: "Minggu 2", progress: 5 },
+  { week: "Minggu 3", progress: 8 },
+  { week: "Minggu 4", progress: 12 },
+];
+
+export const studyTimeByCategory = [
+  { category: "Programming", time: 45 },
+  { category: "Database", time: 20 },
+  { category: "Network", time: 15 },
+  { category: "UI/UX", time: 10 },
+];
+
+export const moduleStatusDistribution = [
+  {
+    name: "Selesai",
+    value: modules.filter((m) => m.status === "Selesai").length,
+  },
+  {
+    name: "Sedang Berjalan",
+    value: modules.filter((m) => m.status === "Sedang Berjalan").length,
+  },
+  {
+    name: "Belum Dimulai",
+    value: modules.filter((m) => m.status === "Belum Dimulai").length,
+  },
+];
+
+export const learningTimeAccumulation = [
+  { name: "Jan", jam: 10 },
+  { name: "Feb", jam: 25 },
+  { name: "Mar", jam: 45 },
+  { name: "Apr", jam: 70 },
+];
+
+export const abilityRadar = [
+  { subject: "Programming", A: 90, fullMark: 100 },
+  { subject: "Database", A: 75, fullMark: 100 },
+  { subject: "Network", A: 60, fullMark: 100 },
+  { subject: "UI/UX", A: 85, fullMark: 100 },
 ];
