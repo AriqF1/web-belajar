@@ -29,13 +29,14 @@ function InstructorDashboard() {
                 Dashboard Instruktur
               </h1>
               <p className="text-gray-600 mt-2 text-lg">
-                Selamat datang, {user.name}! Pantau performa kelas Anda di sini.
+                Selamat datang, {user?.name}! Pantau performa kelas Anda di
+                sini.
               </p>
             </div>
             <div className="hidden md:block">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full flex items-center justify-center">
                 <span className="text-white text-2xl font-bold">
-                  {user.name?.[0] || "I"}
+                  {user?.name?.[0] || "I"}
                 </span>
               </div>
             </div>
